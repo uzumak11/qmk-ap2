@@ -1,0 +1,12 @@
+[submodule "qmk_firmware"]
+	path = qmk_firmware
+	url = git@github.com:uzumak11/qmk_firmware.git
+	branch = ap2-c18
+[submodule "AnnePro2-Tools"]
+	path = AnnePro2-Tools
+	url = git@github.com:uzumak11/AnnePro2-Tools.git
+	branch = master
+[submodule "AnnePro2-Shine"]
+	path = AnnePro2-Shine
+	url = git@github.com:uzumak11/AnnePro2-Shine.git
+	branch = ap2-uart
