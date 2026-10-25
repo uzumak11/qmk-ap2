@@ -1,4 +1,4 @@
-.PHONY: all qmk qmk-full-caps qmk-layer-indicators shine tools flash flash-full-caps flash-layer-indicators flash-all
+.PHONY: all qmk qmk-full-caps qmk-layer-indicators shine tools flash flash-full-caps flash-layer-indicators flash-all flash-all-full-caps
 
 TOOL := ./AnnePro2-Tools/target/release/annepro2_tools
 
@@ -30,4 +30,8 @@ flash-layer-indicators: qmk-layer-indicators tools
 
 flash-all: qmk shine tools
 	sudo $(TOOL) qmk_firmware/.build/annepro2_c18_default.bin
-	sudo $(TOOL) --boot -t led AnnePro2-Shine/build/annepro2-shine-C18.bin
+	sudo $(TOOL) --boot -t led AnnePro2-Shine/build/C18/annepro2-shine-C18.bin
+
+flash-all-full-caps: qmk-full-caps shine tools
+	sudo $(TOOL) qmk_firmware/.build/annepro2_c18_default-full-caps.bin
+	sudo $(TOOL) --boot -t led AnnePro2-Shine/build/C18/annepro2-shine-C18.bin

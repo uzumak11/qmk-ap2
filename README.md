@@ -13,18 +13,91 @@ removed from FN2.
   - custom keymap in `default`, `default-full-caps`, `default-layer-indicators`
 - `AnnePro2-Shine/` — fork of `OpenAnnePro/AnnePro2-Shine`, branch `ap2-uart`
   - LED UART baud fixed to 57600 to match QMK
-- `AnnePro2-Tools/` — fork of `OpenAnnePro/AnnePro2-Tools`, `master`, unchanged
+- `AnnePro2-Tools/` — fork of `OpenAnnePro/AnnePro2-Tools`, `master`
+
+The shared layout is `qmk_firmware/keyboards/annepro2/keymaps/ap2_common.h`;
+the three ANSI keymaps include it and only add their LED behaviour.
 
 ## Keymap
 
-- Base: standard ANSI, Caps Lock plain, Alt/Gui swapped for Mac, `RSFT_T(KC_UP)`
-- Fn1: F-row, arrows on WASD, Home/End/PgUp/PgDn, Ins/Del
-- Fn2: RGB controls on the top row from `1`, arrows, media, volume; no Bluetooth
-- Global tap-hold settings in `qmk_firmware/keyboards/annepro2/config.h`:
-  `TAPPING_TERM 150` and `HOLD_ON_OTHER_KEY_PRESS`
+### Base
 
-The layout itself lives in `qmk_firmware/keyboards/annepro2/keymaps/ap2_common.h`;
-the three ANSI keymaps include it and only add their LED behaviour.
+```text
+Esc    1    2    3    4    5    6    7    8    9    0    -    =    Bksp
+Tab    Q    W    E    R    T    Y    U    I    O    P    [    ]    \
+Caps   A    S    D    F    G    H    J    K    L    ;    '    Enter
+LShift Z    X    C    V    B    N    M    ,    .    /    RShift/Up
+LCtrl  LAlt LGui Space RAlt Fn1/← Fn2/↓ RCtrl/→
+```
+
+### Fn1 — hold `Fn1/←`
+
+```text
+`      F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12  Del
+_      _    Up   _    _    _    _    _    _    _    Pscr Home End  _
+_      ←    ↓    →    _    _    _    _    _    _    PgUp PgDn _
+_      _    _    _    _    _    _    _    _    Ins  Del  _
+_      _    _    _    _    _    Fn2  _
+```
+
+### Fn2 — hold `Fn2/↓` (or Fn1 + Fn2)
+
+```text
+_      TOG  NEXT PREV HUE- HUE+ SAT- SAT+ VAL- VAL+ SPD- SPD+ FLAG Del
+_      _    Up   _    _    _    _    _    _    _    _    _    _    _
+_      ←    ↓    →    _    _    _    _    _    MPRV MPLY MNXT _
+_      _    _    _    _    _    _    _    Vol- Vol+ Mute _
+_      _    _    _    _    _    _    _
+```
+
+Legend:
+
+- `_` = transparent; the key falls through to the layer below.
+- `RShift/Up` = tap `Up`, hold `Right Shift`.
+- `Fn1/←` = tap `Left`, hold `Fn1`.
+- `Fn2/↓` = tap `Down`, hold `Fn2`.
+- `RCtrl/→` = tap `Right`, hold `Right Ctrl`.
+- `TOG`/`NEXT`/`PREV` = `RM_TOGG`/`RM_NEXT`/`RM_PREV`.
+- `HUE-`/`HUE+`, `SAT-`/`SAT+`, `VAL-`/`VAL+`, `SPD-`/`SPD+` = the corresponding `RM_*` keys.
+- `FLAG` = `RM_FLGN`.
+- `MPRV`/`MPLY`/`MNXT` = media previous / play-pause / next.
+- `Vol-`/`Vol+`/`Mute` = `KC_VOLD`/`KC_VOLU`/`KC_MUTE`.
+
+Caps Lock is plain. There are no Bluetooth keys.
+
+### RGB keycodes
+
+| Diagram | QMK keycode | Action |
+|---|---|---|
+| `TOG` | `RM_TOGG` | toggle RGB on/off |
+| `NEXT` / `PREV` | `RM_NEXT` / `RM_PREV` | next / previous effect |
+| `HUE-` / `HUE+` | `RM_HUED` / `RM_HUEU` | hue down / up |
+| `SAT-` / `SAT+` | `RM_SATD` / `RM_SATU` | saturation down / up |
+| `VAL-` / `VAL+` | `RM_VALD` / `RM_VALU` | brightness down / up |
+| `SPD-` / `SPD+` | `RM_SPDD` / `RM_SPDU` | animation speed down / up |
+| `FLAG` | `RM_FLGN` | next effect flag |
+
+### Tap-hold timing
+
+Global in `qmk_firmware/keyboards/annepro2/config.h`:
+
+```c
+#define TAPPING_TERM 150
+#define HOLD_ON_OTHER_KEY_PRESS
+```
+
+Every mod-tap and layer-tap uses the same 150 ms threshold and the same
+hold-on-other-key-press rule.
+
+## Build variants
+
+| Keymap | Build | LEDs |
+|---|---|---|
+| `default` | `make annepro2/c18` | plain |
+| `default-full-caps` | `make annepro2/c18:default-full-caps` | all LEDs red while Caps Lock is on |
+| `default-layer-indicators` | `make annepro2/c18:default-layer-indicators` | layer colours + sticky Caps Lock key |
+
+The **full-caps** build is `default-full-caps`.
 
 ## Build
 
@@ -32,17 +105,25 @@ Prerequisites:
 
 ```bash
 sudo pacman -S arm-none-eabi-gcc arm-none-eabi-binutils arm-none-eabi-newlib hidapi
-python3 -m pip install --user qmk
 ```
 
-From the repo root:
+QMK CLI. On Arch, `pip install --user` is blocked by PEP 668, so use a local
+venv and put its `qmk` on `PATH`:
 
 ```bash
-make                    # annepro2/c18, default (custom layout)
-make qmk-full-caps
+python3 -m venv .venv
+.venv/bin/pip install qmk
+ln -sf "$PWD/.venv/bin/qmk" "$HOME/.local/bin/qmk"
+```
+
+Then, from the repo root:
+
+```bash
+make                    # annepro2/c18, default (plain)
+make qmk-full-caps       # annepro2/c18:default-full-caps
 make qmk-layer-indicators
-make shine              # C18 Shine
-make tools              # annepro2_tools
+make shine               # C18 Shine
+make tools               # annepro2_tools
 ```
 
 The standard QMK commands also work inside `qmk_firmware`:
@@ -60,37 +141,50 @@ Outputs:
 qmk_firmware/.build/annepro2_c18_default.bin
 qmk_firmware/.build/annepro2_c18_default-full-caps.bin
 qmk_firmware/.build/annepro2_c18_default-layer-indicators.bin
-AnnePro2-Shine/build/annepro2-shine-C18.bin
+AnnePro2-Shine/build/C18/annepro2-shine-C18.bin
 ```
 
 ## Flash
 
 Put the keyboard into IAP mode: unplug it, hold `Esc`, plug it back in.
 
-First flash after the UART change (both MCUs must match):
+### Full caps
+
+First flash after the UART change (QMK full caps + Shine, both MCUs must match):
 
 ```bash
-sudo ./AnnePro2-Tools/target/release/annepro2_tools \
-  qmk_firmware/.build/annepro2_c18_default.bin
-sudo ./AnnePro2-Tools/target/release/annepro2_tools --boot -t led \
-  AnnePro2-Shine/build/annepro2-shine-C18.bin
+make flash-all-full-caps
 ```
 
-The first command intentionally has no `--boot`, so the main MCU stays in IAP
-for the LED MCU flash. For later keymap-only changes:
+Later keymap-only changes:
+
+```bash
+make flash-full-caps
+```
+
+Manual equivalent:
+
+```bash
+# main MCU, no --boot so it stays in IAP for the LED MCU
+sudo ./AnnePro2-Tools/target/release/annepro2_tools \
+  qmk_firmware/.build/annepro2_c18_default-full-caps.bin
+sudo ./AnnePro2-Tools/target/release/annepro2_tools --boot -t led \
+  AnnePro2-Shine/build/C18/annepro2-shine-C18.bin
+```
+
+For a later full-caps-only flash:
 
 ```bash
 sudo ./AnnePro2-Tools/target/release/annepro2_tools --boot \
-  qmk_firmware/.build/annepro2_c18_default.bin
+  qmk_firmware/.build/annepro2_c18_default-full-caps.bin
 ```
 
-Or use the shortcuts:
+### Other variants
 
 ```bash
-make flash                  # main MCU only, with --boot
-make flash-full-caps
-make flash-layer-indicators
-make flash-all              # QMK + Shine, no --boot on the first
+make flash                    # default (plain)
+make flash-layer-indicators   # layer indicators
+make flash-all                # default (plain) + Shine
 ```
 
 ## Notes
@@ -98,6 +192,10 @@ make flash-all              # QMK + Shine, no --boot on the first
 - The OpenAnnePro QMK fork is archived; this uses upstream `qmk/qmk_firmware`.
 - `LSHIFT + RSHIFT + B` is not implemented in current upstream QMK. Use `Esc`
   for IAP.
+- This checkout currently uses a user-level ARM toolchain in
+  `$HOME/.local/opt/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi`, with
+  `arm-none-eabi-*` symlinked into `$HOME/.local/bin`. The pacman command above
+  is the equivalent system-wide install.
 - To update from upstream:
 
   ```bash
