@@ -43,7 +43,7 @@ _      _    _    _    _    _    Fn2  _
 ### Fn2 — hold `Fn2/↓` (or Fn1 + Fn2)
 
 ```text
-_      TOG  NEXT PREV HUE- HUE+ SAT- SAT+ VAL- VAL+ SPD- SPD+ FLAG Del
+_      TOG  NEXT PREV HUE- HUE+ SAT- SAT+ VAL- VAL+ SPD- SPD+ _    Del
 _      _    Up   _    _    _    _    _    _    _    _    _    _    _
 _      ←    ↓    →    _    _    _    _    _    MPRV MPLY MNXT _
 _      _    _    _    _    _    _    _    Vol- Vol+ Mute _
@@ -59,7 +59,6 @@ Legend:
 - `RCtrl/→` = tap `Right`, hold `Right Ctrl`.
 - `TOG`/`NEXT`/`PREV` = `RM_TOGG`/`RM_NEXT`/`RM_PREV`.
 - `HUE-`/`HUE+`, `SAT-`/`SAT+`, `VAL-`/`VAL+`, `SPD-`/`SPD+` = the corresponding `RM_*` keys.
-- `FLAG` = `RM_FLGN`.
 - `MPRV`/`MPLY`/`MNXT` = media previous / play-pause / next.
 - `Vol-`/`Vol+`/`Mute` = `KC_VOLD`/`KC_VOLU`/`KC_MUTE`.
 
@@ -75,7 +74,6 @@ Caps Lock is plain. There are no Bluetooth keys.
 | `SAT-` / `SAT+` | `RM_SATD` / `RM_SATU` | saturation down / up |
 | `VAL-` / `VAL+` | `RM_VALD` / `RM_VALU` | brightness down / up |
 | `SPD-` / `SPD+` | `RM_SPDD` / `RM_SPDU` | animation speed down / up |
-| `FLAG` | `RM_FLGN` | next effect flag |
 
 ### Tap-hold timing
 
