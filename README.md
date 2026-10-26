@@ -23,44 +23,55 @@ the three ANSI keymaps include it and only add their LED behaviour.
 ### Base
 
 ```text
-Esc    1    2    3    4    5    6    7    8    9    0    -    =    Bksp
-Tab    Q    W    E    R    T    Y    U    I    O    P    [    ]    \
-Caps   A    S    D    F    G    H    J    K    L    ;    '    Enter
-LShift Z    X    C    V    B    N    M    ,    .    /    RShift/Up
-LCtrl  LAlt LGui Space RAlt Fn1/← Fn2/↓ RCtrl/→
+┌──────────────────────────────────────────────────────────────────────────────────────────┐
+│ Esc    1     2     3     4     5     6     7     8     9     0     -     =       Bksp    │
+│   Tab     Q     W     E     R     T     Y     U     I     O     P     [     ]       \    │
+│   Caps     A     S     D     F     G     H     J     K     L     ;     '       Enter     │
+│    LShift     Z     X     C     V     B     N     M     ,     .     /         RShift     │
+│ LCtrl   LAlt   LGui                   Space                    RAlt   Fn1    Fn2   RCtrl │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Fn1 — hold `Fn1/←`
+### Fn1 — hold `Fn1`
 
 ```text
-`      F1   F2   F3   F4   F5   F6   F7   F8   F9   F10  F11  F12  Del
-_      _    Up   _    _    _    _    _    _    _    Pscr Home End  _
-_      ←    ↓    →    _    _    _    _    _    _    PgUp PgDn _
-_      _    _    _    _    _    _    _    _    Ins  Del  _
-_      _    _    _    _    _    Fn2  _
+┌──────────────────────────────────────────────────────────────────────────────────────────┐
+│  `     F1    F2    F3    F4    F5    F6    F7    F8    F9   F10   F11   F12      Del     │
+│    _      _     Up    _     _     _     _     _     _     _    Pscr  Home  End      _    │
+│    _      Left  Down Right   _     _     _     _     _     _    PgUp  PgDn       _       │
+│      _        _     _     _     _     _     _     _     _    Ins   Del          _        │
+│   _      _      _                       _                       _      _     Fn2     _   │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Fn2 — hold `Fn2/↓` (or Fn1 + Fn2)
+### Fn2 — hold `Fn2` (or Fn1 + Fn2)
 
 ```text
-_      TOG  NEXT PREV HUE- HUE+ SAT- SAT+ VAL- VAL+ SPD- SPD+ _    Del
-_      _    Up   _    _    _    _    _    _    _    _    _    _    _
-_      ←    ↓    →    _    _    _    _    _    MPRV MPLY MNXT _
-_      _    _    _    _    _    _    _    Vol- Vol+ Mute _
-_      _    _    _    _    _    _    _
+┌──────────────────────────────────────────────────────────────────────────────────────────┐
+│  _    TOG   NEXT  PREV  HUE-  HUE+  SAT-  SAT+  VAL-  VAL+  SPD-  SPD+   _       Del     │
+│    _      _     Up    _     _     _     _     _     _     _     _     _     _       _    │
+│    _      Left  Down Right   _     _     _     _     _    MPRV  MPLY  MNXT       _       │
+│      _        _     _     _     _     _     _     _    VOLD  VOLU  MUTE         _        │
+│   _      _      _                       _                       _      _      _      _   │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 Legend:
 
 - `_` = transparent; the key falls through to the layer below.
-- `RShift/Up` = tap `Up`, hold `Right Shift`.
-- `Fn1/←` = tap `Left`, hold `Fn1`.
-- `Fn2/↓` = tap `Down`, hold `Fn2`.
-- `RCtrl/→` = tap `Right`, hold `Right Ctrl`.
 - `TOG`/`NEXT`/`PREV` = `RM_TOGG`/`RM_NEXT`/`RM_PREV`.
 - `HUE-`/`HUE+`, `SAT-`/`SAT+`, `VAL-`/`VAL+`, `SPD-`/`SPD+` = the corresponding `RM_*` keys.
 - `MPRV`/`MPLY`/`MNXT` = media previous / play-pause / next.
-- `Vol-`/`Vol+`/`Mute` = `KC_VOLD`/`KC_VOLU`/`KC_MUTE`.
+- `VOLD`/`VOLU`/`MUTE` = `KC_VOLD`/`KC_VOLU`/`KC_MUTE`.
+
+The tap/hold keys on the base layer:
+
+| Key | Tap | Hold |
+|---|---|---|
+| `RShift` | `Up` | `Right Shift` |
+| `Fn1` | `Left` | `Fn1` |
+| `Fn2` | `Down` | `Fn2` |
+| `RCtrl` | `Right` | `Right Ctrl` |
 
 Caps Lock is plain. There are no Bluetooth keys.
 
